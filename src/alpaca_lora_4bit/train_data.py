@@ -128,8 +128,8 @@ class TrainTxt(ATrainData):
 
 # Stanford Alpaca-like Data
 class TrainSAD(ATrainData):
-    def __init__(self, dataset: str, val_set_size: int, tokenizer, cutoff_len) -> None:
-        super().__init__(dataset, val_set_size, tokenizer, cutoff_len)
+    def __init__(self, val_set_size: int, tokenizer, cutoff_len) -> None:
+        super().__init__( val_set_size, tokenizer, cutoff_len)
 
     def tokenize(self, prompt: str, use_eos_token=True, **kwargs) -> Dict[str, Any]:
         # there's probably a way to do this with the tokenizer settings
@@ -161,7 +161,7 @@ class TrainSAD(ATrainData):
             }
 
     def prepare_data(self, use_eos_token=True, **kwargs) -> None:
-        data = load_dataset("json", data_files=self.dataset)
+        data = load_dataset('Leul78/fina')
 
         if self.val_set_size > 0:
             train_val = data["train"].train_test_split(
@@ -176,10 +176,10 @@ class TrainSAD(ATrainData):
     # Auxiliary methods
     def generate_prompt(self, data_point, **kwargs):
         prompt = "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.\n\n"
-        prompt += f"### Instruction:\n{data_point['instruction']}\n\n"
+        prompt += f"### Instruction:\n Categorize the text based on the sales technique used in it from one of these categories only and offer no explanation:\n\nBUILDING RAPPORT\nNEEDS ASSESMENT\nCREATING URGENCY\nSOCIAL PROOF\nOVERCOMING OBJECTION\nCROSS SELLING OR UPSELLING\nVALUE BASED SELLING\nNONE\n\n"
         if 'input' in data_point:
-            prompt += f"### Input:\n{data_point['input']}\n\n"
-        prompt += f"### Response:\n{data_point['output']}"
+            prompt += f"### Input:\n{data_point['text']}\n\n"
+        prompt += f"### Response:\n{data_point['category']}"
         return prompt
 
     def generate_and_tokenize_prompt(self, data_point, **kwargs):
