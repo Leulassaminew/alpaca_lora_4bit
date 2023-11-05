@@ -30,10 +30,10 @@ def parse_commandline():
     parser_training.add_argument("--resume_checkpoint", default=None, required=False,
         help="Resume training from specified checkpoint. Default: %(default)s"
     )
-    parser_config.add_argument("--llama_q4_config_dir", default="./llama-13b-4bit/", required=False,
+    parser_config.add_argument("--llama_q4_config_dir", default="./llama-7b-4bit/", required=False,
         help="Path to the config.json, tokenizer_config.json, etc. Default: %(default)s"
     )
-    parser_config.add_argument("--llama_q4_model", default="./llama-13b-4bit.pt", required=False,
+    parser_config.add_argument("--llama_q4_model", default="./llama-7b-4bit.pt", required=False,
         help="Path to the quantized model in huggingface format. Default: %(default)s"
     )
 
